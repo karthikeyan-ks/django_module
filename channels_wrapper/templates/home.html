@@ -1,0 +1,31 @@
+<!-- channels_wrapper/templates/channels_wrapper/ws_test.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket Test 1</title>
+</head>
+<body>
+    <h1>WebSocket Demo</h1>
+    <button onclick="sendMessage()">Send Message</button>
+    <ul id="messages"></ul>
+
+    <script>
+        const socket = new WebSocket("ws://" + window.location.host + "/ws/chat/");
+
+        socket.onmessage = function(event) {
+            const messages = document.getElementById("messages");
+            const message = document.createElement("li");
+            message.textContent = event.data;
+            messages.appendChild(message);
+        };
+
+        function sendMessage() {
+            socket.send("Hello from the client!");
+        }
+
+        socket.onopen = () => console.log("WebSocket connected!");
+        socket.onclose = () => console.log("WebSocket disconnected.");
+    </script>
+</body>
+</html>
